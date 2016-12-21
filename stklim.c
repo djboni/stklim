@@ -48,26 +48,30 @@ __attribute__((section(".init3")))
 __attribute__((naked))
 void stackInit(void)
 {
-    int16_t i;
-    for(i = STACK_SIZE_32 - 1; i >= 0; --i)
+    uint16_t i;
+    for(i = 0; i < STACK_SIZE_32; ++i)
         stackMemory[i] = STACK_FILL_VALUE;
-}
-
-/** Check the two last 32bit words of the stack as a fast overflow test. Returns
-1 if at least one word was changed, 0 otherwise. */
-int8_t stackOverflow(void)
-{
-    return  stackMemory[1] != STACK_FILL_VALUE ||
-            stackMemory[0] != STACK_FILL_VALUE;
 }
 
 /** Check the number of 32bit words of the stack that was not changed. Returns
 the number of words of the stack that were not used. */
-int16_t stackUsage(void)
+uint16_t stackUsage(void)
 {
-    int16_t i;
-    for(i = 0; i < STACK_SIZE_32; ++i)
-        if(stackMemory[i] != STACK_FILL_VALUE)
-            break;
-    return i;
+    static uint16_t lower = STACK_SIZE_32;
+    static uint16_t i = 0;
+
+    if(stackMemory[i] != STACK_FILL_VALUE)
+    {
+        if(i < lower)
+        {
+            lower = i;
+        }
+    }
+
+    if(++i >= lower)
+    {
+        i = 0;
+    }
+
+    return lower;
 }

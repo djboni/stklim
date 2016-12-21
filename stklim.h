@@ -23,8 +23,7 @@
 extern "C" {
 #endif
 
-int8_t stackOverflow(void);
-int16_t stackUsage(void);
+uint16_t stackUsage(void);
 
 #ifdef __cplusplus
 }
