@@ -62,10 +62,7 @@ uint16_t stackUsage(void)
 
     if(stackMemory[i] != STACK_FILL_VALUE)
     {
-        if(i < lower)
-        {
-            lower = i;
-        }
+        lower = i;
     }
 
     if(++i >= lower)
