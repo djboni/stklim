@@ -24,6 +24,8 @@ extern "C" {
 #endif
 
 uint16_t stackUsage(void);
+uint16_t stackFreeBytes(void);
+uint16_t stackTotalBytes(void);
 
 #ifdef __cplusplus
 }

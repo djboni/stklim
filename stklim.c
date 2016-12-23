@@ -53,11 +53,12 @@ void stackInit(void)
         stackMemory[i] = STACK_FILL_VALUE;
 }
 
+static uint16_t lower = STACK_SIZE_32;
+
 /** Check the number of 32bit words of the stack that was not changed. Returns
 the number of words of the stack that were not used. */
 uint16_t stackUsage(void)
 {
-    static uint16_t lower = STACK_SIZE_32;
     static uint16_t i = 0;
 
     if(stackMemory[i] != STACK_FILL_VALUE)
@@ -71,4 +72,16 @@ uint16_t stackUsage(void)
     }
 
     return lower;
+}
+
+/** Returns the number of bytes of the stack that were not used. */
+uint16_t stackFreeBytes(void)
+{
+    return lower * sizeof(stackMemory[0]);
+}
+
+/** Returns the number of bytes of the entire stack. */
+uint16_t stackTotalBytes(void)
+{
+    return sizeof(stackMemory);
 }
